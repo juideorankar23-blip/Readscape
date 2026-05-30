@@ -1,0 +1,91 @@
+:root {
+  /* ─── Paper (default theme) ─── */
+  --rs-bg: #FAFAF8;
+  --rs-surface: #F5F4F0;
+  --rs-text: #1A1A18;
+  --rs-muted: #6B6860;
+  --rs-accent: #C4783A;
+  --rs-border: #E8E6E0;
+
+  /* ─── Spacing scale (8px base) ─── */
+  --rs-space-1: 4px;
+  --rs-space-2: 8px;
+  --rs-space-3: 16px;
+  --rs-space-4: 24px;
+  --rs-space-5: 32px;
+  --rs-space-6: 48px;
+  --rs-space-7: 64px;
+
+  /* ─── Typography ─── */
+  --rs-font-serif: 'Lora', Georgia, serif;
+  --rs-font-display: 'Playfair Display', Georgia, serif;
+  --rs-font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ─── Layout ─── */
+  --rs-measure: 68ch;
+  --rs-radius-sm: 4px;
+  --rs-radius-md: 8px;
+  --rs-radius-lg: 12px;
+  --rs-radius-xl: 16px;
+
+  /* ─── Motion ─── */
+  --rs-ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --rs-duration-fast: 200ms;
+  --rs-duration-base: 400ms;
+}
+
+/* ─── Dusk ─── */
+[data-theme="dusk"] {
+  --rs-bg: #141412;
+  --rs-surface: #1E1E1B;
+  --rs-text: #E8E6DF;
+  --rs-muted: #7A7870;
+  --rs-accent: #D4924A;
+  --rs-border: #2A2A26;
+}
+
+/* ─── Aged ─── */
+[data-theme="aged"] {
+  --rs-bg: #F5EDD8;
+  --rs-surface: #EDE4CA;
+  --rs-text: #2C2416;
+  --rs-muted: #7A6A4A;
+  --rs-accent: #8B5A2B;
+  --rs-border: #DDD0B0;
+}
+
+/* ─── Ambient (Paper base + hue layer) ─── */
+[data-theme="ambient"] {
+  --rs-bg: #EEEAF5;
+  --rs-surface: #E6E2F2;
+  --rs-text: #1A1A18;
+  --rs-muted: #6B6860;
+  --rs-accent: #7C6EA8;
+  --rs-border: #DDD8F0;
+}
+
+/* Ambient hue variants — applied via data-hue on top of [data-theme="ambient"] */
+[data-theme="ambient"][data-hue="sage"] {
+  --rs-bg: #EAF2EC;
+  --rs-surface: #DDE9DF;
+  --rs-accent: #4A8A5E;
+  --rs-border: #D0E8D4;
+}
+[data-theme="ambient"][data-hue="slate"] {
+  --rs-bg: #E8EFF5;
+  --rs-surface: #DBE6EF;
+  --rs-accent: #4A7090;
+  --rs-border: #CCD9E4;
+}
+[data-theme="ambient"][data-hue="rose"] {
+  --rs-bg: #F5EBEC;
+  --rs-surface: #EEDDDF;
+  --rs-accent: #9A5A62;
+  --rs-border: #EAD4D6;
+}
+[data-theme="ambient"][data-hue="sand"] {
+  --rs-bg: #F5F0E4;
+  --rs-surface: #EDE5D2;
+  --rs-accent: #8A7448;
+  --rs-border: #E4DACC;
+}
