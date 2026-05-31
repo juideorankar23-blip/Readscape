@@ -1,9 +1,10 @@
 /* ─── Font imports ─── */
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-/* ─── Text styles (mirror your Figma styles) ─── */
+/* ─── Text styles ─── */
 
 .rs-article-title {
   font-family: var(--rs-font-display);
@@ -63,15 +64,12 @@
 }
 
 /* ─── Reading posture modifiers ─── */
-/* Applied to the article container — scales body type per posture */
-
 [data-posture="scan"] .rs-article-body {
   font-size: 22px;
   line-height: 1.9;
 }
 
 [data-posture="read"] .rs-article-body {
-  /* default — matches base .rs-article-body */
   font-size: 20px;
   line-height: 1.75;
 }

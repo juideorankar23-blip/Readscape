@@ -64,7 +64,7 @@ a:hover {
   color: var(--rs-bg);
 }
 
-/* ─── Focus visibility (accessibility) ─── */
+/* ─── Focus visibility ─── */
 :focus-visible {
   outline: 2px solid var(--rs-accent);
   outline-offset: 2px;
@@ -75,7 +75,7 @@ a:hover {
   outline: none;
 }
 
-/* ─── Scrollbar (subtle, themed) ─── */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -94,7 +94,7 @@ a:hover {
   background-color: var(--rs-muted);
 }
 
-/* ─── Utility: visually hidden (for accessible labels) ─── */
+/* ─── Utility ─── */
 .rs-sr-only {
   position: absolute;
   width: 1px;
@@ -117,4 +117,28 @@ a:hover {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ─── Focus mode ─── */
+[data-focus="on"] .rs-article-byline,
+[data-focus="on"] .rs-article-title,
+[data-focus="on"] .rs-article-subhead,
+[data-focus="on"] .rs-article-pullquote,
+[data-focus="on"] .rs-rule {
+  opacity: 0.2;
+  transition: opacity var(--rs-duration-base) var(--rs-ease);
+}
+
+[data-focus="on"] .rs-article-body {
+  opacity: 0.2;
+  position: relative;
+  padding-left: var(--rs-space-4);
+  border-left: 3px solid transparent;
+  transition: opacity var(--rs-duration-base) var(--rs-ease),
+              border-color var(--rs-duration-base) var(--rs-ease);
+}
+
+[data-focus="on"] .rs-article-body:hover {
+  opacity: 1;
+  border-left-color: var(--rs-accent);
 }
