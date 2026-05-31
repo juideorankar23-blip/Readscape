@@ -1,21 +1,31 @@
-import { useState } from 'react'
-import ProgressBar from './components/ProgressBar/ProgressBar'
-import PostureSwitcher from './components/PostureSwitcher/PostureSwitcher'
+import { useEffect, useState } from 'react'
+import TopBar from './components/TopBar/TopBar'
 
 function App() {
   const [posture, setPosture] = useState('read')
+  const [theme, setTheme] = useState('paper')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-posture', posture)
+  }, [posture])
 
   return (
-    <div data-posture={posture}>
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 10 }}>
-        <ProgressBar progress={38} />
-      </div>
+    <>
+      <TopBar
+        progress={38}
+        posture={posture}
+        onPostureChange={setPosture}
+        readTime={5}
+        theme={theme}
+        onThemeChange={setTheme}
+        onOpenPanel={() => console.log('open panel')}
+      />
 
-      <div style={{ padding: 'var(--rs-space-7)', maxWidth: '700px', margin: '0 auto' }}>
-        <div style={{ marginBottom: 'var(--rs-space-5)' }}>
-          <PostureSwitcher value={posture} onChange={setPosture} />
-        </div>
-
+      <div style={{ padding: 'var(--rs-space-7)', paddingTop: 'calc(48px + var(--rs-space-7))', maxWidth: '700px', margin: '0 auto' }}>
         <p className="rs-article-byline">BY JAMES SOMERS · 8 MIN READ · THE ATLANTIC</p>
         <h1 className="rs-article-title" style={{ marginTop: 'var(--rs-space-4)' }}>
           You Are Not Behind
@@ -32,7 +42,7 @@ function App() {
           keeping up.
         </p>
       </div>
-    </div>
+    </>
   )
 }
 
