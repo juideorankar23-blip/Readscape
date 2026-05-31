@@ -1,0 +1,36 @@
+.rs-posture {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--rs-border);
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.rs-posture__segment {
+  font-family: var(--rs-font-ui);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--rs-muted);
+  padding: 6px 18px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--rs-duration-fast) var(--rs-ease),
+              background-color var(--rs-duration-fast) var(--rs-ease);
+}
+
+.rs-posture__segment:hover {
+  color: var(--rs-text);
+}
+
+.rs-posture__segment--active {
+  background-color: var(--rs-surface);
+  color: var(--rs-text);
+}
+
+.rs-posture__segment + .rs-posture__segment {
+  border-left: 1px solid var(--rs-border);
+}
