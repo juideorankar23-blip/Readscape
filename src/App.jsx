@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Reader from './components/Reader/Reader'
+import ReaderSkeleton from './components/Reader/ReaderSkeleton'
+import ReaderError from './components/Reader/ReaderError'
 import ExtensionClickPopup from './components/ExtensionClickPopup/ExtensionClickPopup'
 import ExtensionPopup from './components/ExtensionPopup/ExtensionPopup'
 
-const VIEWS = ['reader', 'clickpopup', 'autopopup']
+const VIEWS = ['reader', 'loading', 'error', 'clickpopup', 'autopopup']
 
 function App() {
   const [view, setView] = useState('reader')
@@ -45,6 +47,8 @@ function App() {
       </div>
 
       {view === 'reader' && <Reader />}
+      {view === 'loading' && <ReaderSkeleton />}
+      {view === 'error' && <ReaderError onRetry={() => setView('reader')} />}
 
       {view === 'clickpopup' && (
         <div
@@ -71,13 +75,7 @@ function App() {
             position: 'relative',
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              top: 60,
-              right: 24,
-            }}
-          >
+          <div style={{ position: 'absolute', top: 60, right: 24 }}>
             <ExtensionPopup
               onOpen={() => setView('reader')}
               onDismiss={() => setView('reader')}
