@@ -4,6 +4,7 @@
   height: 2px;
   background-color: var(--rs-border);
   overflow: hidden;
+  margin-top: var(--rs-space-2);
 }
 
 .rs-progress__fill {
