@@ -22,12 +22,22 @@ const SAMPLE_ARTICLE = {
   ],
 }
 
+function getInitialStatus() {
+  if (typeof window === 'undefined') return 'ready'
+  const params = new URLSearchParams(window.location.search)
+  const tabId = params.get('tabId')
+  if (tabId && typeof chrome !== 'undefined' && chrome.runtime) {
+    return 'loading'
+  }
+  return 'ready'
+}
+
 function Reader() {
   const articleRef = useRef(null)
   const progress = useReadingProgress(articleRef)
 
   const [article, setArticle] = useState(SAMPLE_ARTICLE)
-  const [status, setStatus] = useState('ready') // 'loading' | 'ready' | 'error'
+  const [status, setStatus] = useState(getInitialStatus)
 
   const [theme, setTheme] = useState('paper')
   const [hue, setHue] = useState('lavender')
@@ -36,19 +46,17 @@ function Reader() {
   const [posture, setPosture] = useState('read')
   const [focusMode, setFocusMode] = useState(false)
   const [panelOpen, setPanelOpen] = useState(() => {
-  if (typeof window === 'undefined') return false
-  const params = new URLSearchParams(window.location.search)
-  return params.get('settings') === '1'
-})
+    if (typeof window === 'undefined') return false
+    const params = new URLSearchParams(window.location.search)
+    return params.get('settings') === '1'
+  })
 
-  // If launched via the extension, fetch the article from the source tab
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const tabId = params.get('tabId')
     if (!tabId) return
     if (typeof chrome === 'undefined' || !chrome.runtime) return
 
-    setStatus('loading')
     chrome.runtime.sendMessage(
       { type: 'READSCAPE_FETCH_FROM_TAB', tabId: Number(tabId) },
       (response) => {
@@ -59,7 +67,9 @@ function Reader() {
         setArticle({
           title: response.article.title,
           subhead: '',
-          byline: response.article.byline ? `BY ${response.article.byline.toUpperCase()}` : '',
+          byline: response.article.byline
+            ? `BY ${response.article.byline.toUpperCase()}`
+            : '',
           siteName: response.article.siteName,
           readTime: response.article.readTime,
           contentHtml: response.article.content,
@@ -84,6 +94,9 @@ function Reader() {
     }
     document.documentElement.style.setProperty('--rs-font-serif', families[font])
   }, [font])
+  useEffect(() => {
+    document.documentElement.style.setProperty('--rs-body-size', `${fontSize}px`)
+  }, [fontSize])
   useEffect(() => {
     if (focusMode) document.documentElement.setAttribute('data-focus', 'on')
     else document.documentElement.removeAttribute('data-focus')
@@ -139,16 +152,11 @@ function Reader() {
         {article.contentHtml ? (
           <div
             className="rs-reader__html"
-            style={{ fontSize: `${fontSize}px` }}
             dangerouslySetInnerHTML={{ __html: article.contentHtml }}
           />
         ) : (
           article.paragraphs.map((p, i) => (
-            <p
-              key={i}
-              className="rs-article-body rs-reader__paragraph"
-              style={{ fontSize: `${fontSize}px` }}
-            >
+            <p key={i} className="rs-article-body rs-reader__paragraph">
               {p}
             </p>
           ))

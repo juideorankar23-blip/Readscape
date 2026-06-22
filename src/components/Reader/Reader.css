@@ -27,14 +27,12 @@
 .rs-reader__html {
   font-family: var(--rs-font-serif);
   color: var(--rs-text);
-  line-height: 1.75;
-  font-size: inherit;
 }
 
 .rs-reader__html p {
   margin-top: var(--rs-space-5);
-  font-size: inherit;
-  line-height: 1.75;
+  font-family: var(--rs-font-serif);
+  color: var(--rs-text);
 }
 
 .rs-reader__html p:first-child {
@@ -74,10 +72,8 @@
 
 .rs-reader__html li {
   font-family: var(--rs-font-serif);
-  font-size: inherit;
-  line-height: 1.75;
-  margin-top: var(--rs-space-2);
   color: var(--rs-text);
+  margin-top: var(--rs-space-2);
 }
 
 .rs-reader__html a {

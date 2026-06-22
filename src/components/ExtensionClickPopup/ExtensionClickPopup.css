@@ -26,21 +26,12 @@
   flex: 1;
 }
 
-.rs-clickpopup__logo {
-  width: 24px;
-  height: 24px;
-  background-color: var(--rs-accent);
-  border-radius: var(--rs-radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rs-clickpopup__logo-mark {
-  font-family: var(--rs-font-display);
-  font-weight: 700;
-  font-size: 9px;
-  color: var(--rs-bg);
+.rs-clickpopup__logo-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
 .rs-clickpopup__name {
@@ -57,6 +48,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .rs-clickpopup__close:hover {
@@ -104,7 +96,6 @@
 .rs-clickpopup__cta:hover {
   opacity: 0.92;
 }
-
 
 /* ─── Footer ─── */
 .rs-clickpopup__footer {

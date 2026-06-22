@@ -1,7 +1,11 @@
-body {
+html, body {
   margin: 0;
-  width: 320px;
+  padding: 0;
   background: transparent;
+}
+
+body {
+  width: 320px;
 }
 
 #popup-root {

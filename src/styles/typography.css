@@ -27,7 +27,7 @@
 .rs-article-body {
   font-family: var(--rs-font-serif);
   font-weight: 400;
-  font-size: 20px;
+  font-size: var(--rs-body-size, 20px);
   line-height: 1.75;
   letter-spacing: 0;
   color: var(--rs-text);
@@ -63,23 +63,22 @@
 }
 
 /* ─── Reading posture modifiers ─── */
-[data-posture="scan"] .rs-article-body,
-[data-posture="scan"] .rs-reader__html p,
-[data-posture="scan"] .rs-reader__html li {
-  font-size: 22px;
-  line-height: 1.9;
+[data-posture="scan"] {
+  --rs-body-line: 1.9;
+  --rs-body-scale: 1.1;
+}
+[data-posture="read"] {
+  --rs-body-line: 1.75;
+  --rs-body-scale: 1;
+}
+[data-posture="deep"] {
+  --rs-body-line: 1.65;
+  --rs-body-scale: 0.9;
 }
 
-[data-posture="read"] .rs-article-body,
-[data-posture="read"] .rs-reader__html p,
-[data-posture="read"] .rs-reader__html li {
-  font-size: 20px;
-  line-height: 1.75;
-}
-
-[data-posture="deep"] .rs-article-body,
-[data-posture="deep"] .rs-reader__html p,
-[data-posture="deep"] .rs-reader__html li {
-  font-size: 18px;
-  line-height: 1.65;
+.rs-article-body,
+.rs-reader__html p,
+.rs-reader__html li {
+  font-size: calc(var(--rs-body-size, 20px) * var(--rs-body-scale, 1));
+  line-height: var(--rs-body-line, 1.75);
 }

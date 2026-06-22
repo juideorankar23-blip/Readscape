@@ -48,10 +48,19 @@ function Popup() {
     })
   }
 
+  const openSettings = () => {
+    if (typeof chrome === 'undefined' || !chrome.runtime) return
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('index.html?settings=1'),
+    })
+    window.close()
+  }
+
   return (
     <ExtensionClickPopup
       currentPage={currentPage}
       onOpen={openReader}
+      onSettings={openSettings}
       onClose={() => window.close()}
     />
   )
