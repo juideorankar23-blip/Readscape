@@ -5,7 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 /* ─── Text styles ─── */
-
 .rs-article-title {
   font-family: var(--rs-font-display);
   font-weight: 700;
@@ -64,17 +63,23 @@
 }
 
 /* ─── Reading posture modifiers ─── */
-[data-posture="scan"] .rs-article-body {
+[data-posture="scan"] .rs-article-body,
+[data-posture="scan"] .rs-reader__html p,
+[data-posture="scan"] .rs-reader__html li {
   font-size: 22px;
   line-height: 1.9;
 }
 
-[data-posture="read"] .rs-article-body {
+[data-posture="read"] .rs-article-body,
+[data-posture="read"] .rs-reader__html p,
+[data-posture="read"] .rs-reader__html li {
   font-size: 20px;
   line-height: 1.75;
 }
 
-[data-posture="deep"] .rs-article-body {
+[data-posture="deep"] .rs-article-body,
+[data-posture="deep"] .rs-reader__html p,
+[data-posture="deep"] .rs-reader__html li {
   font-size: 18px;
   line-height: 1.65;
 }

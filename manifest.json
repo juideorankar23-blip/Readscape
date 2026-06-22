@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Readscape",
+  "version": "1.0.0",
+  "description": "A typography-first, distraction-free reading environment.",
+  "action": {
+    "default_popup": "src/extension/popup.html",
+    "default_title": "Readscape"
+  },
+  "background": {
+    "service_worker": "src/extension/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/extension/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "16": "public/icon-16.png",
+    "48": "public/icon-48.png",
+    "128": "public/icon-128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["index.html", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

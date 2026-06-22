@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import TopBar from '../TopBar/TopBar'
 import PersonalisationPanel from '../PersonalisationPanel/PersonalisationPanel'
+import ReaderSkeleton from './ReaderSkeleton'
+import ReaderError from './ReaderError'
 import { useReadingProgress } from '../../hooks/useReadingProgress'
 import './Reader.css'
 
@@ -8,7 +10,9 @@ const SAMPLE_ARTICLE = {
   title: 'You Are Not Behind',
   subhead: 'A meditation on time, attention, and the grace of reading without urgency',
   byline: 'BY JAMES SOMERS',
-  source: 'THE ATLANTIC',
+  siteName: 'THE ATLANTIC',
+  readTime: 8,
+  contentHtml: null,
   paragraphs: [
     'There is a particular kind of anxiety that arrives not from doing too little, but from believing you should have done more by now. It whispers that the books unread, the ideas unexplored, the conversations not yet had — that all of it represents a kind of failure. But reading, real reading, has never been about keeping up.',
     'Lora at twenty pixels with a line height of one point seven five is not an arbitrary choice. It is the typographic equivalent of a comfortable chair — the kind you sink into without noticing the furniture at all. The words arrive. That is enough.',
@@ -18,9 +22,12 @@ const SAMPLE_ARTICLE = {
   ],
 }
 
-function Reader({ article = SAMPLE_ARTICLE }) {
+function Reader() {
   const articleRef = useRef(null)
   const progress = useReadingProgress(articleRef)
+
+  const [article, setArticle] = useState(SAMPLE_ARTICLE)
+  const [status, setStatus] = useState('ready') // 'loading' | 'ready' | 'error'
 
   const [theme, setTheme] = useState('paper')
   const [hue, setHue] = useState('lavender')
@@ -28,24 +35,47 @@ function Reader({ article = SAMPLE_ARTICLE }) {
   const [fontSize, setFontSize] = useState(20)
   const [posture, setPosture] = useState('read')
   const [focusMode, setFocusMode] = useState(false)
-  const [panelOpen, setPanelOpen] = useState(false)
+  const [panelOpen, setPanelOpen] = useState(() => {
+  if (typeof window === 'undefined') return false
+  const params = new URLSearchParams(window.location.search)
+  return params.get('settings') === '1'
+})
 
+  // If launched via the extension, fetch the article from the source tab
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-  }, [theme])
+    const params = new URLSearchParams(window.location.search)
+    const tabId = params.get('tabId')
+    if (!tabId) return
+    if (typeof chrome === 'undefined' || !chrome.runtime) return
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-posture', posture)
-  }, [posture])
+    setStatus('loading')
+    chrome.runtime.sendMessage(
+      { type: 'READSCAPE_FETCH_FROM_TAB', tabId: Number(tabId) },
+      (response) => {
+        if (!response?.article) {
+          setStatus('error')
+          return
+        }
+        setArticle({
+          title: response.article.title,
+          subhead: '',
+          byline: response.article.byline ? `BY ${response.article.byline.toUpperCase()}` : '',
+          siteName: response.article.siteName,
+          readTime: response.article.readTime,
+          contentHtml: response.article.content,
+          paragraphs: [],
+        })
+        setStatus('ready')
+      }
+    )
+  }, [])
 
+  useEffect(() => { document.documentElement.setAttribute('data-theme', theme) }, [theme])
+  useEffect(() => { document.documentElement.setAttribute('data-posture', posture) }, [posture])
   useEffect(() => {
-    if (theme === 'ambient') {
-      document.documentElement.setAttribute('data-hue', hue)
-    } else {
-      document.documentElement.removeAttribute('data-hue')
-    }
+    if (theme === 'ambient') document.documentElement.setAttribute('data-hue', hue)
+    else document.documentElement.removeAttribute('data-hue')
   }, [hue, theme])
-
   useEffect(() => {
     const families = {
       lora: "'Lora', Georgia, serif",
@@ -54,17 +84,15 @@ function Reader({ article = SAMPLE_ARTICLE }) {
     }
     document.documentElement.style.setProperty('--rs-font-serif', families[font])
   }, [font])
-
   useEffect(() => {
-    if (focusMode) {
-      document.documentElement.setAttribute('data-focus', 'on')
-    } else {
-      document.documentElement.removeAttribute('data-focus')
-    }
+    if (focusMode) document.documentElement.setAttribute('data-focus', 'on')
+    else document.documentElement.removeAttribute('data-focus')
   }, [focusMode])
 
-  const totalRead = Math.ceil((1 - progress / 100) * (article.readTime ?? 8))
-  const minutesRemaining = Math.max(0, totalRead)
+  if (status === 'loading') return <ReaderSkeleton />
+  if (status === 'error') return <ReaderError onRetry={() => window.close()} retryLabel="← Close" />
+
+  const minutesRemaining = Math.max(0, Math.ceil((1 - progress / 100) * (article.readTime ?? 8)))
 
   return (
     <>
@@ -97,7 +125,7 @@ function Reader({ article = SAMPLE_ARTICLE }) {
 
       <article ref={articleRef} className="rs-reader">
         <p className="rs-article-byline">
-          {article.byline} · {article.readTime ?? 8} MIN READ · {article.source}
+          {article.byline} · {article.readTime} MIN READ · {article.siteName}
         </p>
 
         <h1 className="rs-article-title rs-reader__title">{article.title}</h1>
@@ -108,15 +136,23 @@ function Reader({ article = SAMPLE_ARTICLE }) {
 
         <div className="rs-rule rs-reader__rule" />
 
-        {article.paragraphs.map((p, i) => (
-          <p
-            key={i}
-            className="rs-article-body rs-reader__paragraph"
+        {article.contentHtml ? (
+          <div
+            className="rs-reader__html"
             style={{ fontSize: `${fontSize}px` }}
-          >
-            {p}
-          </p>
-        ))}
+            dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+          />
+        ) : (
+          article.paragraphs.map((p, i) => (
+            <p
+              key={i}
+              className="rs-article-body rs-reader__paragraph"
+              style={{ fontSize: `${fontSize}px` }}
+            >
+              {p}
+            </p>
+          ))
+        )}
       </article>
     </>
   )

@@ -22,18 +22,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  background-color: var(--rs-accent);
-  border-radius: var(--rs-radius-sm);
+  width: 32px;
+  height: 32px;
 }
 
-.rs-topbar__logo-mark {
-  font-family: var(--rs-font-display);
-  font-weight: 700;
-  font-size: 11px;
-  color: var(--rs-bg);
-  letter-spacing: 0.02em;
+.rs-topbar__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .rs-topbar__spacer {

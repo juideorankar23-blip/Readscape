@@ -9,6 +9,13 @@ const THEMES = [
   { id: 'ambient', label: 'Ambient', swatch: '#EEEAF5', ring: '#7C6EA8' },
 ]
 
+function getLogoUrl() {
+  if (typeof chrome !== 'undefined' && chrome.runtime?.getURL) {
+    return chrome.runtime.getURL('public/icon-128.png')
+  }
+  return '/icon-128.png'
+}
+
 function TopBar({
   progress = 0,
   posture = 'read',
@@ -32,7 +39,11 @@ function TopBar({
 
       <div className="rs-topbar__row">
         <div className="rs-topbar__logo" aria-label="Readscape">
-          <span className="rs-topbar__logo-mark">RS</span>
+          <img
+            src={getLogoUrl()}
+            alt="Readscape"
+            className="rs-topbar__logo-img"
+          />
         </div>
 
         <div className="rs-topbar__spacer" />

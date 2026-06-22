@@ -10,7 +10,6 @@ function Popup() {
   const [currentPage, setCurrentPage] = useState({
     title: 'Loading…',
     source: '',
-    url: '',
   })
 
   useEffect(() => {
@@ -30,7 +29,6 @@ function Popup() {
       setCurrentPage({
         title: tab.title || 'Untitled',
         source,
-        url: tab.url || '',
       })
     })
   }, [])

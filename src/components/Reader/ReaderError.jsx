@@ -1,5 +1,12 @@
 import './ReaderError.css'
 
+function getLogoUrl() {
+  if (typeof chrome !== 'undefined' && chrome.runtime?.getURL) {
+    return chrome.runtime.getURL('public/icon-128.png')
+  }
+  return '/icon-128.png'
+}
+
 function ReaderError({
   title = "This page couldn't be simplified",
   message = 'Readscape works best with long-form article pages. Try a different URL.',
@@ -9,10 +16,7 @@ function ReaderError({
   return (
     <div className="rs-error" role="alert">
       <div className="rs-error__icon" aria-hidden="true">
-        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-          <rect x="1" y="1" width="46" height="46" rx="8" stroke="currentColor" strokeWidth="1.5" />
-          <line x1="16" y1="24" x2="32" y2="24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
+        <img src={getLogoUrl()} alt="" />
       </div>
 
       <h1 className="rs-error__title">{title}</h1>

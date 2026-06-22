@@ -11,8 +11,11 @@
   gap: var(--rs-space-4);
 }
 
-.rs-error__icon {
-  color: var(--rs-border);
+.rs-error__icon img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  opacity: 0.6;
 }
 
 .rs-error__title {
